@@ -9,10 +9,6 @@
 
 import java.io.*;
 import java.util.*;
-//import sProcess;
-//import Common;
-//import Results;
-//import SchedulingAlgorithm;
 
 public class Scheduling {
 
@@ -22,7 +18,7 @@ public class Scheduling {
   private static int runtime = 1000;
   private static Vector processVector = new Vector();
   private static Results result = new Results("null","null",0);
-  private static String resultsFile = "Summary-Results";
+  private static String resultsFile = "resultados";
 
   private static void Init(String file) {
     File f = new File(file);
@@ -61,7 +57,11 @@ public class Scheduling {
           }
           X = X * standardDev;
           cputime = (int) X + meanDev;
-          processVector.addElement(new sProcess(cputime, ioblocking, 0, 0, 0));          
+
+          // Prioridad aleatoria
+          int priority = (int) Common.R1();
+
+          processVector.addElement(new sProcess(cputime, ioblocking, 0, 0, 0, priority));          
         }
         if (line.startsWith("runtime")) {
           StringTokenizer st = new StringTokenizer(line);
@@ -114,7 +114,12 @@ public class Scheduling {
           }
           X = X * standardDev;
         int cputime = (int) X + meanDev;
-        processVector.addElement(new sProcess(cputime,i*100,0,0,0));          
+
+        // Prioridad aleatoria
+        int priority = (int) Common.R1();
+
+
+        processVector.addElement(new sProcess(cputime,i*100,0,0,0, priority));          
         i++;
       }
     }
